@@ -21,6 +21,12 @@ public class FindDayWithSmallestTempSpread {
     private static final Logger logger = LogManager.getLogger(FindDayWithSmallestTempSpread.class);
 
     public static void main(String[] args) {
+        runFindDayWithSmallestTempSpread();
+    }
+
+    public static void runFindDayWithSmallestTempSpread() {
+
+        logger.info("Starting findDayWithSmallestTempSpread...");
 
         try {
 
@@ -42,7 +48,5 @@ public class FindDayWithSmallestTempSpread {
         } catch (Exception e) {
             logger.error("An error occurred ", e);
         }
-
-
     }
 }

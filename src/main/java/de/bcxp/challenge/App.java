@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import static de.bcxp.challenge.application.FindDayWithSmallestTempSpread.runFindDayWithSmallestTempSpread;
+import static de.bcxp.challenge.application.HighestNumberOfPeoplePerSquareKilometer.runHighestNumberOfPeoplePerSquareKilometer;
 import static de.bcxp.challenge.weather.WeatherUtils.WEATHER_CSV_FORMAT;
 
 /**
@@ -25,12 +27,10 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
+        logger.info("Starting BCXP Challenge Application - Timon Bomke - 2025");
 
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-        System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
-
-        String countryWithHighestPopulationDensity = "Some country"; // Your population density analysis function call …
-        System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
-
+        runFindDayWithSmallestTempSpread();
+        System.out.println(); // Just to separate the outputs of the two applications
+        runHighestNumberOfPeoplePerSquareKilometer();
     }
 }

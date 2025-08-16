@@ -19,8 +19,14 @@ public class HighestNumberOfPeoplePerSquareKilometer {
     private static final Logger logger = LogManager.getLogger(HighestNumberOfPeoplePerSquareKilometer.class);
 
     public static void main(String[] args) {
+        runHighestNumberOfPeoplePerSquareKilometer();
+    }
 
-        try{
+    public static void runHighestNumberOfPeoplePerSquareKilometer() {
+
+        logger.info("Starting HighestNumberOfPeoplePerSquareKilometer");
+
+        try {
 
             String counterFilePath = "src/main/resources/de/bcxp/challenge/countries.csv";
 
@@ -36,13 +42,12 @@ public class HighestNumberOfPeoplePerSquareKilometer {
             CountryEntity countryWithHighestDensity = CountryService.getCountryWithHighestPopulationDensity(countryData);
 
             logger.info("Country ({}) has the highest population density: {} people/km²",
-                        countryWithHighestDensity.Name,
-                        countryWithHighestDensity.getPopulationDensity());
+                    countryWithHighestDensity.Name,
+                    countryWithHighestDensity.getPopulationDensity());
 
 
-        }catch (Exception e) {
-            logger.error("An error occurred ",e);
+        } catch (Exception e) {
+            logger.error("An error occurred ", e);
         }
-
     }
 }
