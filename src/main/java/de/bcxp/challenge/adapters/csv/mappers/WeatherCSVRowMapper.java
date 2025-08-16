@@ -33,20 +33,20 @@ public class WeatherCSVRowMapper extends ConfigurableRowMapper<WeatherEntity> {
 
         WeatherEntity entity = new WeatherEntity();
 
-        entity.Day = Integer.parseInt(row.get("Day"));
-        entity.MxT = Integer.parseInt(row.get("MxT"));
-        entity.MnT = Integer.parseInt(row.get("MnT"));
-        entity.AvT = Integer.parseInt(row.get("AvT"));
-        entity.AvDP = Double.parseDouble(row.get("AvDP"));
-        entity.oneHrP_TPcpn = Integer.parseInt(row.get("1HrP TPcpn"));
-        entity.PDir = Integer.parseInt(row.get("PDir"));
-        entity.AvSp = Double.parseDouble(row.get("AvSp"));
-        entity.Dir = Integer.parseInt(row.get("Dir"));
-        entity.MxS = Integer.parseInt(row.get("MxS"));
-        entity.SkyC = Double.parseDouble(row.get("SkyC"));
-        entity.MxR = Integer.parseInt(row.get("MxR"));
-        entity.Mn = Integer.parseInt(row.get("Mn"));
-        entity.R_AvSLP = Double.parseDouble(row.get("R AvSLP"));
+        entity.Day = Integer.parseInt(row.get("Day").trim());
+        entity.MxT = Integer.parseInt(row.get("MxT").trim());
+        entity.MnT = Integer.parseInt(row.get("MnT").trim());
+        entity.AvT = Integer.parseInt(row.get("AvT").trim());
+        entity.AvDP = Double.parseDouble(row.get("AvDP").trim());
+        entity.oneHrP_TPcpn = Integer.parseInt(row.get("1HrP TPcpn").trim());
+        entity.PDir = Integer.parseInt(row.get("PDir").trim());
+        entity.AvSp = Double.parseDouble(row.get("AvSp").trim());
+        entity.Dir = Integer.parseInt(row.get("Dir").trim());
+        entity.MxS = Integer.parseInt(row.get("MxS").trim());
+        entity.SkyC = Double.parseDouble(row.get("SkyC").trim());
+        entity.MxR = Integer.parseInt(row.get("MxR").trim());
+        entity.Mn = Integer.parseInt(row.get("Mn").trim());
+        entity.R_AvSLP = Double.parseDouble(row.get("R AvSLP").trim());
 
         return entity;
     }

@@ -19,9 +19,9 @@ public class CSVRecordReader<T> implements RecordReader<T> {
     private final Reader reader;
     private final RowMapper<T> rowMapper;
     private final CSVFormat format;
-    private CSVParser parser;
 
     private static final Logger logger = LogManager.getLogger(CSVRecordReader.class);
+    private final String filePath;
 
 
     public CSVRecordReader(String filePath, RowMapper<T> rowMapper, CSVFormat format) throws IOException {
@@ -34,6 +34,7 @@ public class CSVRecordReader<T> implements RecordReader<T> {
             throw new IllegalArgumentException("File does not exist: " + filePath);
         }
 
+        this.filePath = filePath;
         this.reader = new FileReader(filePath);
         this.rowMapper = rowMapper;
         this.format = format;
@@ -46,7 +47,7 @@ public class CSVRecordReader<T> implements RecordReader<T> {
 
             ArrayList<T> results = new ArrayList<>();
 
-            logger.info("Start reading CSV file");
+            logger.info("Start reading CSV file {}", this.filePath);
             Iterable<CSVRecord> records = format.parse(readerToUse);
 
             logger.info("Mapping rows");
@@ -75,9 +76,6 @@ public class CSVRecordReader<T> implements RecordReader<T> {
         try {
             if (reader != null) {
                 reader.close();
-            }
-            if (parser != null) {
-                parser.close();
             }
         } catch (IOException e) {
             logger.error("Error closing CSV reader resources", e);
