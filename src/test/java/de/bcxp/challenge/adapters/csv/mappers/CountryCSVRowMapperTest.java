@@ -49,15 +49,15 @@ class CountryCSVRowMapperTest {
         @Test
         void testMapRow_SkipInvalidRows_False_ThrowsException() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Test null row - should throw exception
             assertThrows(IllegalArgumentException.class, () -> mapper.mapRow(null));
-            
+
             // Test missing column - should throw exception
             Map<String, String> incompleteRow = createValidRow();
             incompleteRow.remove("Name");
             assertThrows(IllegalArgumentException.class, () -> mapper.mapRow(incompleteRow));
-            
+
             // Test invalid population format with comma - should throw exception
             Map<String, String> invalidRow = createValidRow();
             invalidRow.put("Population", "83,240,525");
@@ -67,18 +67,18 @@ class CountryCSVRowMapperTest {
         @Test
         void testMapRow_SkipInvalidRows_True_ReturnsNull() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(true);
-            
+
             // Test null row - should return null instead of throwing
             assertNull(mapper.mapRow(null));
-            
+
             // Test empty row - should return null instead of throwing
             assertNull(mapper.mapRow(new HashMap<>()));
-            
+
             // Test missing column - should return null instead of throwing
             Map<String, String> incompleteRow = createValidRow();
             incompleteRow.remove("Capital");
             assertNull(mapper.mapRow(incompleteRow));
-            
+
             // Test invalid population format - should return null instead of throwing
             Map<String, String> invalidRow = createValidRow();
             invalidRow.put("Population", "83,240,525");
@@ -105,69 +105,69 @@ class CountryCSVRowMapperTest {
         @Test
         void testValidateNumberFormat_ValidNumbers() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Test valid population numbers (English format)
             Map<String, String> validRow1 = createValidRow();
             validRow1.put("Population", "83240525");
-            assertTrue(mapper.validateRow(validRow1));
+            assertTrue(mapper.isValidRow(validRow1));
 
             Map<String, String> validRow2 = createValidRow();
             validRow2.put("Population", "1000000");
-            assertTrue(mapper.validateRow(validRow2));
+            assertTrue(mapper.isValidRow(validRow2));
 
             Map<String, String> validRow3 = createValidRow();
             validRow3.put("Population", "123");
-            assertTrue(mapper.validateRow(validRow3));
+            assertTrue(mapper.isValidRow(validRow3));
         }
 
         @Test
         void testValidateNumberFormat_InvalidNumbers() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Test population with comma (German format) - should be invalid
             Map<String, String> invalidRow1 = createValidRow();
             invalidRow1.put("Population", "83,240,525");
-            assertFalse(mapper.validateRow(invalidRow1));
+            assertFalse(mapper.isValidRow(invalidRow1));
 
             // Test population with multiple dots - should be invalid
             Map<String, String> invalidRow2 = createValidRow();
             invalidRow2.put("Population", "83.240.525");
-            assertFalse(mapper.validateRow(invalidRow2));
+            assertFalse(mapper.isValidRow(invalidRow2));
 
             // Test population with letters - should be invalid
             Map<String, String> invalidRow3 = createValidRow();
             invalidRow3.put("Population", "83240525abc");
-            assertFalse(mapper.validateRow(invalidRow3));
+            assertFalse(mapper.isValidRow(invalidRow3));
 
             // Test empty population - should be invalid
             Map<String, String> invalidRow4 = createValidRow();
             invalidRow4.put("Population", "");
-            assertFalse(mapper.validateRow(invalidRow4));
+            assertFalse(mapper.isValidRow(invalidRow4));
 
             // Test population with spaces in between - should be invalid
             Map<String, String> invalidRow5 = createValidRow();
             invalidRow5.put("Population", "83 240 525");
-            assertFalse(mapper.validateRow(invalidRow5));
+            assertFalse(mapper.isValidRow(invalidRow5));
         }
 
         @Test
         void testValidateNumberFormat_EdgeCases() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Test with leading/trailing whitespace - should be valid after trimming
             Map<String, String> whitespaceRow = createValidRow();
             whitespaceRow.put("Population", "  83240525  ");
-            assertTrue(mapper.validateRow(whitespaceRow));
-            
+            assertTrue(mapper.isValidRow(whitespaceRow));
+
             // Test very large number - should be valid
             Map<String, String> largeNumberRow = createValidRow();
             largeNumberRow.put("Population", "9223372036854775807"); // Long.MAX_VALUE
-            assertTrue(mapper.validateRow(largeNumberRow));
-            
+            assertTrue(mapper.isValidRow(largeNumberRow));
+
             // Test single digit - should be valid
             Map<String, String> singleDigitRow = createValidRow();
             singleDigitRow.put("Population", "1");
-            assertTrue(mapper.validateRow(singleDigitRow));
+            assertTrue(mapper.isValidRow(singleDigitRow));
         }
     }
 
@@ -177,44 +177,44 @@ class CountryCSVRowMapperTest {
         @Test
         void testValidateRow_PopulationValidation() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Valid population
-            assertTrue(mapper.validateRow(createValidRow()));
-            
+            assertTrue(mapper.isValidRow(createValidRow()));
+
             // Zero population - should be invalid
             Map<String, String> zeroPopulation = createValidRow();
             zeroPopulation.put("Population", "0");
-            assertFalse(mapper.validateRow(zeroPopulation));
-            
+            assertFalse(mapper.isValidRow(zeroPopulation));
+
             // Negative population - should be invalid
             Map<String, String> negativePopulation = createValidRow();
             negativePopulation.put("Population", "-1000");
-            assertFalse(mapper.validateRow(negativePopulation));
+            assertFalse(mapper.isValidRow(negativePopulation));
         }
 
         @Test
         void testValidateRow_OtherFieldValidation() {
             CountryCSVRowMapper mapper = new CountryCSVRowMapper(false);
-            
+
             // Empty name - should be invalid
             Map<String, String> emptyName = createValidRow();
             emptyName.put("Name", "");
-            assertFalse(mapper.validateRow(emptyName));
-            
+            assertFalse(mapper.isValidRow(emptyName));
+
             // Empty capital - should be invalid
             Map<String, String> emptyCapital = createValidRow();
             emptyCapital.put("Capital", "");
-            assertFalse(mapper.validateRow(emptyCapital));
-            
+            assertFalse(mapper.isValidRow(emptyCapital));
+
             // Invalid HDI (> 1) - should be invalid
             Map<String, String> invalidHDI = createValidRow();
             invalidHDI.put("HDI", "1.5");
-            assertFalse(mapper.validateRow(invalidHDI));
-            
+            assertFalse(mapper.isValidRow(invalidHDI));
+
             // Negative GDP - should be invalid
             Map<String, String> negativeGDP = createValidRow();
             negativeGDP.put("GDP (US$ M)", "-1000");
-            assertFalse(mapper.validateRow(negativeGDP));
+            assertFalse(mapper.isValidRow(negativeGDP));
         }
     }
 }

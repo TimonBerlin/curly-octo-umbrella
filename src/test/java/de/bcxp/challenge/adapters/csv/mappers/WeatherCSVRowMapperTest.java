@@ -47,15 +47,15 @@ class WeatherCSVRowMapperTest {
     @Test
     void testMapRow_SkipInvalidRows_False_ThrowsException() {
         WeatherCSVRowMapper mapper = new WeatherCSVRowMapper(false);
-        
+
         // Test null row - should throw exception
         assertThrows(IllegalArgumentException.class, () -> mapper.mapRow(null));
-        
+
         // Test missing column - should throw exception
         Map<String, String> incompleteRow = createValidRow();
         incompleteRow.remove("Day");
         assertThrows(IllegalArgumentException.class, () -> mapper.mapRow(incompleteRow));
-        
+
         // Test invalid number format - should throw exception
         Map<String, String> invalidRow = createValidRow();
         invalidRow.put("Day", "invalid_number");
@@ -65,28 +65,28 @@ class WeatherCSVRowMapperTest {
     @Test
     void testMapRow_SkipInvalidRows_True_ReturnsNull() {
         WeatherCSVRowMapper mapper = new WeatherCSVRowMapper(true);
-        
+
         // Test null row - should return null instead of throwing
         assertNull(mapper.mapRow(null));
-        
+
         // Test empty row - should return null instead of throwing
         assertNull(mapper.mapRow(new HashMap<>()));
-        
+
         // Test missing column - should return null instead of throwing
         Map<String, String> incompleteRow = createValidRow();
         incompleteRow.remove("MxT");
         assertNull(mapper.mapRow(incompleteRow));
-        
+
         // Test invalid number format - should return null instead of throwing
         Map<String, String> invalidRow = createValidRow();
         invalidRow.put("AvDP", "not_a_number");
         assertNull(mapper.mapRow(invalidRow));
-        
+
         // Test invalid day range - should return null instead of throwing
         Map<String, String> invalidDay = createValidRow();
         invalidDay.put("Day", "0");
         assertNull(mapper.mapRow(invalidDay));
-        
+
         // Test max temp < min temp - should return null instead of throwing
         Map<String, String> tempOrder = createValidRow();
         tempOrder.put("MxT", "50");
@@ -99,39 +99,39 @@ class WeatherCSVRowMapperTest {
         // Test that the same invalid data behaves differently based on configuration
         Map<String, String> invalidRow = createValidRow();
         invalidRow.put("Day", "invalid");
-        
+
         // With skipInvalidRows = false, should throw exception
         WeatherCSVRowMapper strictMapper = new WeatherCSVRowMapper(false);
         assertThrows(IllegalArgumentException.class, () -> strictMapper.mapRow(invalidRow));
-        
+
         // With skipInvalidRows = true, should return null
         WeatherCSVRowMapper lenientMapper = new WeatherCSVRowMapper(true);
         assertNull(lenientMapper.mapRow(invalidRow));
     }
 
     @Test
-    void testValidateRow() {
+    void testIsValidRow() {
         WeatherCSVRowMapper mapper = new WeatherCSVRowMapper(false);
-        
+
         // Valid data
-        assertTrue(mapper.validateRow(createValidRow()));
-        
+        assertTrue(mapper.isValidRow(createValidRow()));
+
         // Invalid cases
-        assertFalse(mapper.validateRow(null));
-        assertFalse(mapper.validateRow(new HashMap<>()));
-        
+        assertFalse(mapper.isValidRow(null));
+        assertFalse(mapper.isValidRow(new HashMap<>()));
+
         Map<String, String> invalidDay = createValidRow();
         invalidDay.put("Day", "0");
-        assertFalse(mapper.validateRow(invalidDay));
-        
+        assertFalse(mapper.isValidRow(invalidDay));
+
         Map<String, String> invalidTemp = createValidRow();
         invalidTemp.put("MxT", "200");
-        assertFalse(mapper.validateRow(invalidTemp));
-        
+        assertFalse(mapper.isValidRow(invalidTemp));
+
         Map<String, String> tempOrder = createValidRow();
         tempOrder.put("MxT", "50");
         tempOrder.put("MnT", "60");
-        assertFalse(mapper.validateRow(tempOrder));
+        assertFalse(mapper.isValidRow(tempOrder));
     }
 
     @Test

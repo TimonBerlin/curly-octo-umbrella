@@ -8,5 +8,5 @@ public interface RowMapper<T> {
 
     T mapRow(Map<String,String> row);
 
-    boolean validateRow(Map<String,String> row);
+    boolean isValidRow(Map<String,String> row);
 }

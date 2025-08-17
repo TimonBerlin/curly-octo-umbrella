@@ -31,13 +31,12 @@ public class HighestNumberOfPeoplePerSquareKilometer {
             String counterFilePath = "src/main/resources/de/bcxp/challenge/countries.csv";
 
 
-            CSVRecordReader<CountryEntity> csvRecordReader = new CSVRecordReader<CountryEntity>(
-                    counterFilePath,
+            CSVRecordReader<CountryEntity> csvRecordReader = new CSVRecordReader<>(
                     new CountryCSVRowMapper(true),
                     COUNTRY_CSV_FORMAT
             );
 
-            ArrayList<CountryEntity> countryData = csvRecordReader.readAll();
+            ArrayList<CountryEntity> countryData = csvRecordReader.readAll(counterFilePath);
 
             CountryEntity countryWithHighestDensity = CountryService.getCountryWithHighestPopulationDensity(countryData);
 

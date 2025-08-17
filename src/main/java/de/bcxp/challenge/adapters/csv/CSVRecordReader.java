@@ -3,28 +3,30 @@ package de.bcxp.challenge.adapters.csv;
 import de.bcxp.challenge.adapters.RecordReader;
 import de.bcxp.challenge.adapters.RowMapper;
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 
 public class CSVRecordReader<T> implements RecordReader<T> {
 
-    private final Reader reader;
     private final RowMapper<T> rowMapper;
     private final CSVFormat format;
 
     private static final Logger logger = LogManager.getLogger(CSVRecordReader.class);
-    private final String filePath;
 
 
-    public CSVRecordReader(String filePath, RowMapper<T> rowMapper, CSVFormat format) throws IOException {
+    public CSVRecordReader(RowMapper<T> rowMapper, CSVFormat format) {
+        this.rowMapper = rowMapper;
+        this.format = format;
+    }
+
+    @Override
+    public ArrayList<T> readAll(String filePath) {
 
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty");
@@ -34,20 +36,11 @@ public class CSVRecordReader<T> implements RecordReader<T> {
             throw new IllegalArgumentException("File does not exist: " + filePath);
         }
 
-        this.filePath = filePath;
-        this.reader = new FileReader(filePath);
-        this.rowMapper = rowMapper;
-        this.format = format;
-    }
-
-    @Override
-    public ArrayList<T> readAll() {
-
-        try (Reader readerToUse = this.reader) {
+        try (Reader readerToUse = new FileReader(filePath)) {
 
             ArrayList<T> results = new ArrayList<>();
 
-            logger.info("Start reading CSV file {}", this.filePath);
+            logger.info("Start reading CSV file {}", filePath);
             Iterable<CSVRecord> records = format.parse(readerToUse);
 
             logger.info("Mapping rows");
@@ -71,14 +64,4 @@ public class CSVRecordReader<T> implements RecordReader<T> {
 
     }
 
-    @Override
-    public void close() {
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException e) {
-            logger.error("Error closing CSV reader resources", e);
-        }
-    }
 }

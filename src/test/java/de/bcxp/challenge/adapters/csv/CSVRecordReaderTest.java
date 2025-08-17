@@ -12,23 +12,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class CSVRecordReaderTest {
 
     @Test
-    void testConstructor_NullFilePath() {
+    void testReadAll_NullFilePath() {
+        CSVRecordReader<TestData> reader = new CSVRecordReader<>(new TestRowMapper(), CSVFormat.DEFAULT);
         assertThrows(IllegalArgumentException.class, () -> {
-            new CSVRecordReader<>(null, new TestRowMapper(), CSVFormat.DEFAULT);
+            reader.readAll(null);
         });
     }
 
     @Test
-    void testConstructor_EmptyFilePath() {
+    void testReadAll_EmptyFilePath() {
+        CSVRecordReader<TestData> reader = new CSVRecordReader<>(new TestRowMapper(), CSVFormat.DEFAULT);
         assertThrows(IllegalArgumentException.class, () -> {
-            new CSVRecordReader<>("", new TestRowMapper(), CSVFormat.DEFAULT);
+            reader.readAll("");
         });
     }
 
     @Test
-    void testConstructor_NonExistentFile() {
+    void testReadAll_NonExistentFile() {
+        CSVRecordReader<TestData> reader = new CSVRecordReader<>(new TestRowMapper(), CSVFormat.DEFAULT);
         assertThrows(IllegalArgumentException.class, () -> {
-            new CSVRecordReader<>("nonexistent.csv", new TestRowMapper(), CSVFormat.DEFAULT);
+            reader.readAll("nonexistent.csv");
         });
     }
 
@@ -38,30 +41,27 @@ class CSVRecordReaderTest {
                 .setHeader("name", "age")
                 .setSkipHeaderRecord(true)
                 .build();
-        
+
         CSVRecordReader<TestData> reader = new CSVRecordReader<>(
-            "src/test/resources/test.csv", 
-            new TestRowMapper(), 
+            new TestRowMapper(),
             format
         );
-        
-        ArrayList<TestData> result = reader.readAll();
-        
+
+        ArrayList<TestData> result = reader.readAll("src/test/resources/test.csv");
+
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals("John", result.get(0).name);
         assertEquals("25", result.get(0).age);
         assertEquals("Jane", result.get(1).name);
         assertEquals("30", result.get(1).age);
-        
-        reader.close();
     }
 
     // Simple test data class
     static class TestData {
         String name;
         String age;
-        
+
         TestData(String name, String age) {
             this.name = name;
             this.age = age;
@@ -76,7 +76,7 @@ class CSVRecordReaderTest {
         }
 
         @Override
-        public boolean validateRow(Map<String, String> row) {
+        public boolean isValidRow(Map<String, String> row) {
             return true;
         }
     }

@@ -1,8 +1,6 @@
 package de.bcxp.challenge.adapters.csv.mappers;
 
-import de.bcxp.challenge.App;
 import de.bcxp.challenge.adapters.ConfigurableRowMapper;
-import de.bcxp.challenge.adapters.RowMapper;
 import de.bcxp.challenge.weather.WeatherEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +18,7 @@ public class WeatherCSVRowMapper extends ConfigurableRowMapper<WeatherEntity> {
     @Override
     public WeatherEntity mapRow(Map<String, String> row) {
 
-        if (!validateRow(row)) {
+        if (!isValidRow(row)) {
 
             if (this.skipInvalidRows) {
                 logger.warn("Invalid row data: " + row);
@@ -52,7 +50,7 @@ public class WeatherCSVRowMapper extends ConfigurableRowMapper<WeatherEntity> {
     }
 
     @Override
-    public boolean validateRow(Map<String, String> row) {
+    public boolean isValidRow(Map<String, String> row) {
         if (row == null || row.isEmpty()) {
             return false;
         }

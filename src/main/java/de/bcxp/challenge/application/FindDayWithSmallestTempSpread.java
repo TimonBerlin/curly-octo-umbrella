@@ -34,12 +34,11 @@ public class FindDayWithSmallestTempSpread {
 
 
             CSVRecordReader<WeatherEntity> csvRecordReader = new CSVRecordReader<WeatherEntity>(
-                    weatherFilePath,
                     new WeatherCSVRowMapper(true),
                     WEATHER_CSV_FORMAT
             );
 
-            ArrayList<WeatherEntity> weatherData = csvRecordReader.readAll();
+            ArrayList<WeatherEntity> weatherData = csvRecordReader.readAll(weatherFilePath);
 
             WeatherEntity dayWithSmallestSpread = WeatherService.getDayWithSmallestTemperatureSpread(weatherData);
 

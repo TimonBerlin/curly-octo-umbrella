@@ -30,7 +30,7 @@ public final class App {
         logger.info("Starting BCXP Challenge Application - Timon Bomke - 2025");
 
         runFindDayWithSmallestTempSpread();
-        System.out.println(); // Just to separate the outputs of the two applications
+       logger.info(""); // Just to separate the outputs of the two applications
         runHighestNumberOfPeoplePerSquareKilometer();
     }
 }

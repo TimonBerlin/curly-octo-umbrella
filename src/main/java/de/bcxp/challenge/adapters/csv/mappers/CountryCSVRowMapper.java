@@ -5,9 +5,6 @@ import de.bcxp.challenge.countries.CountryEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.charset.MalformedInputException;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Map;
 
 public class CountryCSVRowMapper extends ConfigurableRowMapper<CountryEntity> {
@@ -27,7 +24,7 @@ public class CountryCSVRowMapper extends ConfigurableRowMapper<CountryEntity> {
         }
 
         String trimmed = numberStr.trim();
-        
+
         // Check for commas (not allowed in English format)
         if (trimmed.contains(",")) {
             logger.warn("Number format contains comma: " + trimmed);
@@ -47,7 +44,7 @@ public class CountryCSVRowMapper extends ConfigurableRowMapper<CountryEntity> {
     @Override
     public CountryEntity mapRow(Map<String, String> row) {
 
-        if (!validateRow(row)) {
+        if (!isValidRow(row)) {
 
             if (this.skipInvalidRows) {
                 logger.warn("Invalid row data: " + row);
@@ -80,7 +77,7 @@ public class CountryCSVRowMapper extends ConfigurableRowMapper<CountryEntity> {
     }
 
     @Override
-    public boolean validateRow(Map<String, String> row) {
+    public boolean isValidRow(Map<String, String> row) {
         if (row == null || row.isEmpty()) {
             logger.warn("Row is null or empty");
             return false;
@@ -113,7 +110,7 @@ public class CountryCSVRowMapper extends ConfigurableRowMapper<CountryEntity> {
 
             // Validate Population (should be positive and in English format only)
             String populationStr = row.get("Population").trim();
-            
+
             // Use validateNumberFormat function to check format
             if (!validateNumberFormat(populationStr)) {
                 logger.warn("Invalid population format (only English format accepted): " + populationStr + " for country: " + name);
