@@ -25,10 +25,10 @@ Log4j2 is a widely used logging library in the Java ecosystem, known for its per
 
 ### Run with Maven
 ```bash
-./mvnw compile exec:java -Dexec.mainClass="de.bcxp.challenge.App"
+mvn compile exec:java -Dexec.mainClass="de.bcxp.challenge.App"
 ```
 
 ### Run tests
 ```bash
-./mvnw test
+mvn test
 ```
