@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-import static de.bcxp.challenge.weather.WeatherUtils.TEMPERATURE_SPREAD_COMPARATOR;
 import static de.bcxp.challenge.weather.WeatherUtils.WEATHER_CSV_FORMAT;
 
 /**

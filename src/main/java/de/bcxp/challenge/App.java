@@ -1,18 +1,10 @@
 package de.bcxp.challenge;
 
-import de.bcxp.challenge.adapters.csv.CSVRecordReader;
-import de.bcxp.challenge.adapters.csv.mappers.WeatherCSVRowMapper;
-import de.bcxp.challenge.weather.WeatherEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.ArrayList;
-
 import static de.bcxp.challenge.application.FindDayWithSmallestTempSpread.runFindDayWithSmallestTempSpread;
 import static de.bcxp.challenge.application.HighestNumberOfPeoplePerSquareKilometer.runHighestNumberOfPeoplePerSquareKilometer;
-import static de.bcxp.challenge.weather.WeatherUtils.WEATHER_CSV_FORMAT;
 
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software

@@ -2,17 +2,14 @@ package de.bcxp.challenge.application;
 
 import de.bcxp.challenge.adapters.csv.CSVRecordReader;
 import de.bcxp.challenge.adapters.csv.mappers.CountryCSVRowMapper;
-import de.bcxp.challenge.adapters.csv.mappers.WeatherCSVRowMapper;
 import de.bcxp.challenge.countries.CountryEntity;
 import de.bcxp.challenge.countries.CountryService;
-import de.bcxp.challenge.weather.WeatherEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 import static de.bcxp.challenge.countries.CountryUtils.COUNTRY_CSV_FORMAT;
-import static de.bcxp.challenge.weather.WeatherUtils.WEATHER_CSV_FORMAT;
 
 public class HighestNumberOfPeoplePerSquareKilometer {
 
